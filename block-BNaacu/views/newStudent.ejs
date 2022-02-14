@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Student Entry</title>
+    <style>
+        input {
+            display: block;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>New Student Entry</h1>
+    <div>
+        <form action="/students" method="post">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name">
+
+            <label for="classStudying">Class</label>
+            <input type="number" name="classStudying" id="classStudying" min="1" max="10" value="1">
+
+            <label for="course">Course</label>
+            <input type="text" name="course" id="course">
+
+            <label for="age">Age</label>
+            <input type="number" name="age" id="age" min="0" max="100" value="0">
+
+            <label for="fathersName">Fathers Name</label>
+            <input type="text" name="fathersName" id="fathersName">
+
+            <label for="mobileNumber">Mobile</label>
+            <input type="tel" name="mobileNumber" id="mobileNumber">
+
+            <button class="submit-btn" type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        const submitBtn = document.querySelector(".submit-btn");
+        submitBtn.addEventListener("click", function (e) {
+            const params = {
+                name: document.getElementById("name").value,
+                classStudying: document.getElementById("classStudying").value,
+                course: document.getElementById("course").value,
+                age: document.getElementById("age").value,
+                fathersName: document.getElementById("fathersName").value,
+                mobileNumber: document.getElementById("mobileNumber").value
+            };
+            console.log(e)
+            e.preventDefault();
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/students");
+            xhr.setRequestHeader('Content-type', 'application/json')
+            xhr.send(JSON.stringify(params));
+            xhr.onload = function (data) {
+                console.log("res", typeof data.target.response)
+                data = JSON.parse(data.target.response);
+                if (data.status === "OK") {
+                    alert("Student added");
+                } else if(data.status === "Error"){
+                    alert("There is some error. Please check")
+                }else{
+                    alert("Form data cannot be empty")
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
