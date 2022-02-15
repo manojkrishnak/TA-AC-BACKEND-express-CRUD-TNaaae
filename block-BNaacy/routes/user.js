@@ -14,9 +14,10 @@ router.get("/new", function(req, res){
 router.post("/", function(req, res){
     console.log(req.body)
 
-    User.create(req.body, function(req, res){
+    User.create(req.body, function(err, data){
         // res.status(200).json({status: "OK"})
-        return res.redirect("/users/new/")
+        console.log(data)
+     res.redirect("/users")
     })
 })
 
